@@ -63,3 +63,18 @@ copies all files from the current directory into the /opt/ directory inside the 
 to /opt/. Next, it updates repositories and installs python3 and python3-pip inside the container. It then installs the
 required dependencies from the requirements.txt file using pip. Finally, the container will run main.py using python3 as
 the default command when the container is launched.
+
+#### Run the following command to use docker:
+(docker should be installed)
+```bash
+docker build -t image-name .
+```
+
+where `image-name` is the name of the future image (it can be anything), and the dot means the current directory.
+Once Docker has built the image, you can start the container with the command:
+
+```bash
+docker run image-name
+```
+
+Now the container will run and run the main.py file inside of itself.
