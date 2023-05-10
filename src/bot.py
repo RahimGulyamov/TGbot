@@ -9,13 +9,14 @@ from src.keyboard import kb_lang
 from src.keyboard import kb_lang0
 from src.wiki import Football
 from src.config import TOKEN
+from src.constants import *
 
 tr = Translator()
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(bot)
 
-leng = 'ru'
+language = 'ru'
 
 active = False
 
@@ -43,17 +44,16 @@ async def leagues(message: types.Message):
     :param message:
     :return:messege
     """
-
     # these condition for choosing language
-    global leng, active
+    global language, active
     for i in kb_lang0:
         if message.text == i:
             message.text = message.text[:2]
     if not active and LANGUAGES.__contains__(message.text):
-        leng = message.text
+        language = message.text
         active = True
         await bot.send_message(
-            message.from_user.id, tr.translate('Choose the League:', dest=leng).text,
+            message.from_user.id, tr.translate('Choose the League:', dest=language).text,
             reply_markup=kb_user)
     elif not active and not LANGUAGES.__contains__(message.text):
         active = False
@@ -62,52 +62,12 @@ async def leagues(message: types.Message):
                                   'Example:  <b><i>en</i></b>', parse_mode='HTML',
             reply_markup=kb_lang)
 
-    # this condition for EPL table
-    elif active and message.text == keyboard.EPL:
-        f = Football('https://en.wikipedia.org/wiki/2022%E2%80%9323_Premier_League', leng)
+    # this condition for table
+    elif active and message.text in main_leagues:
+        f = Football(main_leagues[message.text].url, language)
         f.update()
         await bot.send_message(
-            message.from_user.id, tr.translate('Таблица АПЛ🏴󠁧󠁢󠁥󠁮󠁧󠁿:', dest=leng).text,
-            reply_markup=kb_user)
-        await bot.send_message(message.from_user.id, f.get_rank(),
-                               parse_mode='HTML', reply_markup=kb_user)
-
-    # this condition for La Liga table
-    elif active and message.text == keyboard.LaLiga:
-        f = Football('https://en.wikipedia.org/wiki/2022%E2%80%9323_La_Liga', leng)
-        f.update()
-        await bot.send_message(
-            message.from_user.id, tr.translate('Таблица Ла Лиги🇪🇸:', dest=leng).text,
-            reply_markup=kb_user)
-        await bot.send_message(message.from_user.id, f.get_rank(),
-                               parse_mode='HTML', reply_markup=kb_user)
-
-    # this condition for Seria A table
-    elif active and message.text == keyboard.SerieA:
-        f = Football('https://en.wikipedia.org/wiki/2022%E2%80%9323_Serie_A', leng)
-        f.update()
-        await bot.send_message(
-            message.from_user.id, tr.translate('Serie A table🇮🇹:', dest=leng).text,
-            reply_markup=kb_user)
-        await bot.send_message(message.from_user.id, f.get_rank(),
-                               parse_mode='HTML', reply_markup=kb_user)
-
-    # this condition for Bunliga table
-    elif active and message.text == keyboard.BunLiga:
-        f = Football('https://en.wikipedia.org/wiki/2022%E2%80%9323_Bundesliga', leng)
-        f.update()
-        await bot.send_message(
-            message.from_user.id, tr.translate('Bundesligs table🇩🇪:', dest=leng).text,
-            reply_markup=kb_user)
-        await bot.send_message(message.from_user.id, f.get_rank(),
-                               parse_mode='HTML', reply_markup=kb_user)
-
-    # this condition for Ligue 1 table
-    elif active and message.text == keyboard.Ligue1:
-        f = Football('https://en.wikipedia.org/wiki/2022%E2%80%9323_Ligue_1', leng)
-        f.update()
-        await bot.send_message(
-            message.from_user.id, tr.translate('Ligue 1 table🇫🇷:', dest=leng).text,
+            message.from_user.id, tr.translate(main_leagues[message.text].table_name, dest=language).text,
             reply_markup=kb_user)
         await bot.send_message(message.from_user.id, f.get_rank(),
                                parse_mode='HTML', reply_markup=kb_user)
@@ -118,7 +78,7 @@ async def leagues(message: types.Message):
 
     # this condition every wrong message from user
     else:
-        f = Football('https://en.wikipedia.org/wiki/2022%E2%80%9323_Ligue_1', leng)
+        f = Football(url_ligue_1, language)
         f.update()
         await bot.send_message(message.from_user.id, f.get_error(),
                                parse_mode='HTML', reply_markup=kb_user)

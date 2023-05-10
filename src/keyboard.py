@@ -14,25 +14,25 @@ Back = ('/back')
 
 # 🏴󠁧󠁢󠁥󠁮󠁧󠁿 🇪🇸 🇮🇹 🇩🇪 🇫🇷 🇷🇺
 
-b1 = addButton('en🏴󠁧󠁢󠁥󠁮󠁧󠁿')
-b2 = addButton('ru🇷🇺')
-b3 = addButton('es🇪🇸')
-b4 = addButton('de🇩🇪')
-b5 = addButton('fr🇫🇷')
+btn_lang_en = addButton('en🏴󠁧󠁢󠁥󠁮󠁧󠁿')
+btn_lang_ru = addButton('ru🇷🇺')
+btn_lang_es = addButton('es🇪🇸')
+btn_lang_de = addButton('de🇩🇪')
+btn_lang_fr = addButton('fr🇫🇷')
 
-btn1 = addButton(EPL)
-btn2 = addButton(LaLiga)
-btn3 = addButton(SerieA)
-btn4 = addButton(BunLiga)
-btn5 = addButton(Ligue1)
-btn6 = addButton(Back)
+btn_liga_epl = addButton(EPL)
+btn_liga_laliga = addButton(LaLiga)
+btn_liga_seria_a = addButton(SerieA)
+btn_liga_bunliga = addButton(BunLiga)
+btn_liga_ligue_1 = addButton(Ligue1)
+btn_back = addButton(Back)
 
 
 kb_user = Button(resize_keyboard=True)
-kb_user.row(btn1, btn2).row(btn3, btn4).row(btn5, btn6)
+kb_user.row(btn_liga_epl, btn_liga_laliga).row(btn_liga_seria_a, btn_liga_bunliga).row(btn_liga_ligue_1, btn_back)
 
 kb_lang = Button(resize_keyboard=True)
-kb_lang.row(b1, b2, b3, b4, b5)
+kb_lang.row(btn_lang_en, btn_lang_ru, btn_lang_es, btn_lang_de, btn_lang_fr)
 kb_lang0 = ['en🏴󠁧󠁢󠁥󠁮󠁧󠁿', 'ru🇷🇺', 'es🇪🇸', 'de🇩🇪', 'fr🇫🇷']
 
 
